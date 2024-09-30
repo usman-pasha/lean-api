@@ -1,0 +1,48 @@
+1. Creating Server 
+2. Module Js 
+3. App Error Handling 
+4. Respons Handling
+5. all types of http status code 
+6. all types of http methods
+7. try catch and only catch
+8. async and await or promises then and catch 
+9. json format 
+10. authentications 
+   * jwt 
+   * passport js 
+   * sms otp 
+   * all types of Passwords
+   * cookies
+11. encryption algorithm
+12. mongodb 
+    pure mongodb
+13. mongoose 
+14. mongoose aggrigations
+15. filters
+16. paginations
+17. cron jobs
+18. redis [all types]
+19. bigMQ
+20. PostgreSQL 
+21. pisma 
+22. Files 
+23. api calls
+24. logging
+25. REST apis
+26. GraphQL apis
+27. socket.io
+
+
+final project 
+1. user management and coins
+2. email notifications
+3. auctions projects 
+4. campaign projects 
+5. chatting projects 
+6. CSN projects 
+7. restaurants project 
+8. ecom project 
+9. online transactions management
+10. dry claning
+11. webRTC project 
+

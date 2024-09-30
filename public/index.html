@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App with Status</title>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <style>
+        .online { color: green; }
+        .offline { color: red; }
+    </style>
+</head>
+<body>
+    <div id="chat">
+        <input id="username" placeholder="Username" />
+        <button onclick="goOnline()">Go Online</button>
+        <ul id="userStatusList"></ul>
+        <ul id="messages"></ul>
+        <input id="message" placeholder="Message" />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        const socket = io('http://localhost:4000');
+
+        // Handle user going online
+        function goOnline() {
+            const username = document.getElementById('username').value;
+            if (username) {
+                socket.emit('userOnline', username);
+                socket.username = username; // Save username to socket object for later use
+            }
+        }
+
+        // Display user status updates
+        socket.on('updateUserStatus', (data) => {
+            const userStatusList = document.getElementById('userStatusList');
+            let userStatusItem = document.getElementById(data.username);
+            if (!userStatusItem) {
+                userStatusItem = document.createElement('li');
+                userStatusItem.id = data.username;
+                userStatusList.appendChild(userStatusItem);
+            }
+            userStatusItem.textContent = `${data.username} is ${data.status}`;
+            userStatusItem.className = data.status;
+        });
+
+        // Receive chat history and new messages
+        socket.on('chatHistory', (messages) => {
+            const messagesUl = document.getElementById('messages');
+            messagesUl.innerHTML = '';
+            messages.forEach((msg) => {
+                const li = document.createElement('li');
+                li.textContent = `${msg.username}: ${msg.message}`;
+                messagesUl.appendChild(li);
+            });
+        });
+
+        socket.on('receiveMessage', (message) => {
+            const messagesUl = document.getElementById('messages');
+            const li = document.createElement('li');
+            li.textContent = `${message.username}: ${message.message}`;
+            messagesUl.appendChild(li);
+        });
+
+        // Send a message
+        function sendMessage() {
+            const username = document.getElementById('username').value;
+            const message = document.getElementById('message').value;
+            if (username && message) {
+                socket.emit('sendMessage', { username, message });
+                document.getElementById('message').value = '';
+            }
+        }
+    </script>
+</body>
+</html>
